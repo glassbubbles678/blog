@@ -99,6 +99,8 @@ $$\text{Var}(y) \approx E[\text{LN}(\tilde{x}^2)] = 1$$
 
 **Overall BitLinear Formulation**
 
+[Bitnet](https://github.com/glassbubbles678/blog/blob/main/images/bitnet.png)
+
 - After the `SubLN` operation, the activations are quantized with the abysmax function. 
 - The matrix multiplication is performed between 1-bit weights and quantized activations. 
 - The output activations are then rescaled using $\{\beta, \gamma\}$ to dequantize them to the original precision.
