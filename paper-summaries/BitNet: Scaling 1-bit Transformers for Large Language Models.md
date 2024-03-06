@@ -99,15 +99,15 @@ $$\text{Var}(y) \approx E[\text{LN}(\tilde{x}^2)] = 1$$
 
 **Overall BitLinear Formulation**
 
-$$y = \widetilde{W} \tilde{x} = \widetilde{W} \text{Quant}(\text{Ln}(x)) \times \frac{\beta\gamma}{Q_b}$$
+- After the `SubLN` operation, the activations are quantized with the abysmax function. 
+- The matrix multiplication is performed between 1-bit weights and quantized activations. 
+- The output activations are then rescaled using $\{\beta, \gamma\}$ to dequantize them to the original precision.
+
+$$y = \widetilde{W} \tilde{x} = \widetilde{W} \text{Quant}(\text{LN}(x)) \times \frac{\beta\gamma}{Q_b}$$
 
 $$\text{LN}(x) = \frac{x - E[x]}{\sqrt{\text{Var}(x) + \epsilon}}$$
 
 $$\beta = \frac{1}{nm} \lVert W \rVert _1$$
-
-After the `SubLN` operation, the activations are quantized with the abysmax function. 
-The matrix multiplication is performed between 1-bit weights and quantized activations. 
-The output activations are then rescaled using $\{\beta, \gamma\}$ to dequantize them to the original precision.
 
 **Group Quantization and Group Normalization for Model Parallelism**
 
@@ -130,7 +130,7 @@ $$\alpha_g = \frac{n}{G} \times m \sum{ij} W_{ij}^{(g)}, \beta_g = \frac{n}{G} \
 
 - Similarly, for activations, the input matrix $x \in \mathcal{R}^{n \times m}$ can be divided into $G$ groups with parameters calculated as follows:
 
-$$\gamma_g = \lVert x^{(g)} \rVert _\infty, \eta_g = \min_{ij} x^{(g)}_{ij}$$
+$$\gamma_g = \lVert x^{(g)} \rVert \_\infty, \eta_g = \min_{ij} x^{(g)}_{ij}$$
 
 - For layer normalization, group normalization is applied to compute the mean and variance for each group independently:
 
@@ -159,8 +159,7 @@ $$E\_{add} = m \times (n-1) \times p \times \hat{E}\_{add}$$
 
 $$E\_{mul} = m \times n \times p \times \hat{E}\_{mul}$$
 
-$\hat{E}\_{add}$ and $\hat{E}\_{mul}$ are the energy consumption for addition and multiplication operations.
-
+- $\hat{E}\_{add}$ and $\hat{E}\_{mul}$ are the energy consumption for addition and multiplication operations.
 - In BitNet, the energy consumption of matrix multiplication is domination by the addition operations since the weights are 1-bit.
 - The multiplication operations are only applied to scale the outputs with the scalars $\beta$ and $\frac{\gamma}{Q_b}$, so the energy consumption for multiplication is:
 
