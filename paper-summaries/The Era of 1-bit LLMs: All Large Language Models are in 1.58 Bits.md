@@ -21,6 +21,8 @@ while being significantly more cost-effective in terms of latency, memory, throu
 
 ## BitNet b1.58
 
+![Bitnet b1.58](https://github.com/glassbubbles678/blog/blob/main/images/bitnet-b1.58.png)
+
 ### Quantization Function
 
 **Quantization of weights**
